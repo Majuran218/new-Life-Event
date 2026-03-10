@@ -1,0 +1,45 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\HP\\Downloads\\Life_Events_Hub\\Life_Events_Hub\\Backend\\wwwroot\\uploads\\202602\\0274bc6d-815b-4c00-b597-a10d0aa27c2c.jpg",
+      "PackagePath": "staticwebassets\\uploads\\202602\\0274bc6d-815b-4c00-b597-a10d0aa27c2c.jpg"
+    },
+    {
+      "Id": "C:\\Users\\HP\\Downloads\\Life_Events_Hub\\Life_Events_Hub\\Backend\\wwwroot\\uploads\\202602\\4b5608ac-d5d4-4004-852d-b3db0b5ff30e.jpg",
+      "PackagePath": "staticwebassets\\uploads\\202602\\4b5608ac-d5d4-4004-852d-b3db0b5ff30e.jpg"
+    },
+    {
+      "Id": "C:\\Users\\HP\\Downloads\\Life_Events_Hub\\Life_Events_Hub\\Backend\\wwwroot\\uploads\\202603\\2ccc646a-4626-4640-9ec7-386d3fb129c8.jpg",
+      "PackagePath": "staticwebassets\\uploads\\202603\\2ccc646a-4626-4640-9ec7-386d3fb129c8.jpg"
+    },
+    {
+      "Id": "C:\\Users\\HP\\Downloads\\Life_Events_Hub\\Life_Events_Hub\\Backend\\wwwroot\\uploads\\202603\\2f66609d-f300-432a-b16e-af38aea6fa84.jpg",
+      "PackagePath": "staticwebassets\\uploads\\202603\\2f66609d-f300-432a-b16e-af38aea6fa84.jpg"
+    },
+    {
+      "Id": "C:\\Users\\HP\\Downloads\\Life_Events_Hub\\Life_Events_Hub\\Backend\\wwwroot\\uploads\\202603\\461689a9-6548-4a7d-8585-236fe3900564.jpg",
+      "PackagePath": "staticwebassets\\uploads\\202603\\461689a9-6548-4a7d-8585-236fe3900564.jpg"
+    },
+    {
+      "Id": "C:\\Users\\HP\\Downloads\\Life_Events_Hub\\Life_Events_Hub\\Backend\\wwwroot\\uploads\\202603\\bb1c165e-2212-4c2e-9700-0d7ad1d50832.jpg",
+      "PackagePath": "staticwebassets\\uploads\\202603\\bb1c165e-2212-4c2e-9700-0d7ad1d50832.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.LifeEventsHub.Api.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.LifeEventsHub.Api.props",
+      "PackagePath": "build\\LifeEventsHub.Api.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.LifeEventsHub.Api.props",
+      "PackagePath": "buildMultiTargeting\\LifeEventsHub.Api.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.LifeEventsHub.Api.props",
+      "PackagePath": "buildTransitive\\LifeEventsHub.Api.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
