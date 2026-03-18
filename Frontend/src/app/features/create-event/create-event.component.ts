@@ -58,17 +58,79 @@ import { AuthService } from '../../services/auth.service';
 
         <div class="form-group">
           <label>Title *</label>
-          <input [(ngModel)]="title" name="title" placeholder="e.g. John & Jane's Wedding" required />
+          <input 
+            [(ngModel)]="title" 
+            name="title" 
+            placeholder="e.g. John & Jane's Wedding" 
+            required 
+            #titleInput="ngModel"
+            minlength="3"
+            maxlength="100"
+          />
+          @if (titleInput.invalid && (titleInput.dirty || titleInput.touched)) {
+            <div class="validation-error">
+              @if (titleInput.errors?.['required']) {
+                <small>Title is required.</small>
+              }
+              @if (titleInput.errors?.['minlength']) {
+                <small>Title must be at least 3 characters.</small>
+              }
+              @if (titleInput.errors?.['maxlength']) {
+                <small>Title cannot exceed 100 characters.</small>
+              }
+            </div>
+          }
         </div>
 
         <div class="form-group">
           <label>Description *</label>
-          <textarea [(ngModel)]="description" name="description" placeholder="Share the story, details, and meaning of this event..." required></textarea>
+          <textarea 
+            [(ngModel)]="description" 
+            name="description" 
+            placeholder="Share the story, details, and meaning of this event..." 
+            required
+            #descriptionInput="ngModel"
+            minlength="10"
+            maxlength="2000"
+            rows="5"
+          ></textarea>
+          @if (descriptionInput.invalid && (descriptionInput.dirty || descriptionInput.touched)) {
+            <div class="validation-error">
+              @if (descriptionInput.errors?.['required']) {
+                <small>Description is required.</small>
+              }
+              @if (descriptionInput.errors?.['minlength']) {
+                <small>Description must be at least 10 characters.</small>
+              }
+              @if (descriptionInput.errors?.['maxlength']) {
+                <small>Description cannot exceed 2000 characters.</small>
+              }
+            </div>
+          }
+          <div class="character-count" [class.exceed-limit]="description.length > 2000">
+            {{ description.length }}/2000
+          </div>
         </div>
 
         <div class="form-group">
           <label>Location (optional)</label>
-          <input [(ngModel)]="location" name="location" placeholder="e.g. Central Park, New York" />
+          <input 
+            [(ngModel)]="location" 
+            name="location" 
+            placeholder="e.g. Central Park, New York"
+            #locationInput="ngModel"
+            maxlength="200"
+          />
+          @if (locationInput.invalid && locationInput.errors?.['maxlength']) {
+            <div class="validation-error">
+              <small>Location cannot exceed 200 characters.</small>
+            </div>
+          }
+          @if (location) {
+            <div class="character-count" [class.exceed-limit]="location.length > 200">
+              {{ location.length }}/200
+            </div>
+          }
         </div>
 
         <div class="form-group">
@@ -119,14 +181,60 @@ import { AuthService } from '../../services/auth.service';
           <div class="form-group invite-section">
             <label>Invite people by email *</label>
             <p class="form-hint">Comma-separated emails. Invited users must log in with that email to view.</p>
-            <textarea [(ngModel)]="invitedEmails" name="invitedEmails" rows="3" placeholder="sister@example.com, brother@example.com"></textarea>
+            <textarea 
+              [(ngModel)]="invitedEmails" 
+              name="invitedEmails" 
+              rows="3" 
+              placeholder="sister@example.com, brother@example.com"
+              #emailInput="ngModel"
+              minlength="5"
+              maxlength="500"
+              pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(,\s*[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})*$"
+            ></textarea>
+            @if (emailInput.invalid && (emailInput.dirty || emailInput.touched)) {
+              <div class="validation-error">
+                @if (emailInput.errors?.['required']) {
+                  <small>At least one email is required for invite-only events.</small>
+                }
+                @if (emailInput.errors?.['minlength']) {
+                  <small>Please enter valid email addresses.</small>
+                }
+                @if (emailInput.errors?.['maxlength']) {
+                  <small>Email list cannot exceed 500 characters.</small>
+                }
+                @if (emailInput.errors?.['pattern']) {
+                  <small>Please enter valid comma-separated email addresses.</small>
+                }
+              </div>
+            }
+            @if (invitedEmails) {
+              <div class="character-count" [class.exceed-limit]="invitedEmails.length > 500">
+                {{ invitedEmails.length }}/500
+              </div>
+            }
           </div>
         }
 
         @if (!auth.isLoggedIn()) {
           <div class="form-group">
             <label>Your Name (optional)</label>
-            <input [(ngModel)]="createdBy" name="createdBy" placeholder="Anonymous" />
+            <input 
+              [(ngModel)]="createdBy" 
+              name="createdBy" 
+              placeholder="Anonymous"
+              #nameInput="ngModel"
+              maxlength="100"
+            />
+            @if (nameInput.invalid && nameInput.errors?.['maxlength']) {
+              <div class="validation-error">
+                <small>Name cannot exceed 100 characters.</small>
+              </div>
+            }
+            @if (createdBy) {
+              <div class="character-count" [class.exceed-limit]="createdBy.length > 100">
+                {{ createdBy.length }}/100
+              </div>
+            }
           </div>
         }
 
@@ -147,7 +255,7 @@ import { AuthService } from '../../services/auth.service';
           <div class="error-msg">{{ error() }}</div>
         }
 
-        <button type="submit" class="btn btn-primary btn-lg" [disabled]="saving()">
+        <button type="submit" class="btn btn-primary btn-lg" [disabled]="saving() || !isFormValid()">
           {{ saving() ? 'Saving...' : 'Proceed to Payment' }}
         </button>
       </form>
@@ -229,6 +337,32 @@ import { AuthService } from '../../services/auth.service';
     .option-days { font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.75rem; }
     .option-price { font-size: 1.25rem; font-weight: 700; color: var(--primary); }
     .option-per-day { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; }
+
+    .validation-error {
+      color: #dc3545;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+    .validation-error small {
+      display: block;
+      margin-bottom: 0.125rem;
+    }
+    .character-count {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: right;
+      margin-top: 0.25rem;
+    }
+    .character-count.exceed-limit {
+      color: #dc3545;
+      font-weight: 600;
+    }
+    input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched, select.ng-invalid.ng-touched {
+      border-color: #dc3545;
+    }
+    input.ng-valid.ng-touched, textarea.ng-valid.ng-touched, select.ng-valid.ng-touched {
+      border-color: #28a745;
+    }
   `]
 })
 export class CreateEventComponent implements OnInit {
@@ -309,28 +443,45 @@ export class CreateEventComponent implements OnInit {
     return `$${perDay.toFixed(2)}`;
   }
 
-  submit() {
-    if (!this.title.trim() || !this.description.trim() || !this.eventType || !this.eventDate || !this.country) {
-      this.error.set('Please fill in all required fields.');
-      return;
+  isFormValid(): boolean {
+    // Basic required field checks
+    if (!this.title.trim() || this.title.length < 3 || this.title.length > 100) return false;
+    if (!this.description.trim() || this.description.length < 10 || this.description.length > 2000) return false;
+    if (!this.eventType) return false;
+    if (!this.eventDate) return false;
+    if (!this.country) return false;
+    
+    // Event type specific validations
+    if (this.eventType === 'Obituary' && (!this.birthDate || !this.deathDate)) return false;
+    if (this.eventType === 'Anniversary' && !this.weddingDate) return false;
+    
+    // Visibility validations
+    if (this.visibility === 'InviteOnly') {
+      if (!this.invitedEmails.trim() || this.invitedEmails.length > 500) return false;
+      // Simple email pattern validation
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(,\s*[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})*$/;
+      if (!emailPattern.test(this.invitedEmails.trim())) return false;
     }
-    if (this.eventType === 'Obituary' && (!this.birthDate || !this.deathDate)) {
-      this.error.set('Birth date and Date of Passing are required for obituaries.');
-      return;
-    }
-    if (this.eventType === 'Anniversary' && !this.weddingDate) {
-      this.error.set('Wedding date is required for anniversaries.');
-      return;
-    }
-    if (this.visibility === 'InviteOnly' && !this.invitedEmails.trim()) {
-      this.error.set('Please add at least one email to invite.');
-      return;
-    }
+    
+    // Location validation
+    if (this.location && this.location.length > 200) return false;
+    
+    // Created by validation
+    if (!this.auth.isLoggedIn() && this.createdBy && this.createdBy.length > 100) return false;
+    
+    // Display days validation
     const validDays = [1, 3, 7, 14, 30, 90];
-    if (!validDays.includes(this.displayDays)) {
-      this.error.set('Please select a display duration (1, 3, 7, 14, 30, or 90 days).');
+    if (!validDays.includes(this.displayDays)) return false;
+    
+    return true;
+  }
+
+  submit() {
+    if (!this.isFormValid()) {
+      this.error.set('Please fill in all required fields correctly.');
       return;
     }
+    
     this.saving.set(true);
     this.error.set('');
 

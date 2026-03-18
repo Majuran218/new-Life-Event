@@ -495,3 +495,4 @@ C:\Users\Devar\Desktop\Live-Events-Hub\Life_Events_Hub\Life_Events_Hub\Life_Even
 C:\Users\Devar\Desktop\Live-Events-Hub\Life_Events_Hub\Life_Events_Hub\Life_Events_Hub\Backend\obj\Debug\net8.0\LifeEventsHub.Api.pdb
 C:\Users\Devar\Desktop\Live-Events-Hub\Life_Events_Hub\Life_Events_Hub\Life_Events_Hub\Backend\obj\Debug\net8.0\LifeEventsHub.Api.genruntimeconfig.cache
 C:\Users\Devar\Desktop\Live-Events-Hub\Life_Events_Hub\Life_Events_Hub\Life_Events_Hub\Backend\obj\Debug\net8.0\ref\LifeEventsHub.Api.dll
+C:\Users\Devar\Desktop\Live-Events-Hub\Life_Events_Hub\Life_Events_Hub\Life_Events_Hub\Backend\obj\Debug\net8.0\LifeEventsHub.Api.sourcelink.json

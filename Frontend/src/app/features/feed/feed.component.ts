@@ -65,7 +65,10 @@ import { EventStatsService } from '../../services/event-stats.service';
                 <h3>{{ ev.title }}</h3>
                 <p>{{ ev.description }}</p>
                 <div class="card-meta">
-                  <span>{{ ev.createdBy }}</span>
+                  <div class="meta-left">
+                    <span>{{ ev.createdBy }}</span>
+                    <span class="time-ago" [title]="ev.createdAt | date:'medium'">• {{ getTimeAgo(ev.createdAt) }}</span>
+                  </div>
                   <span>{{ ev.eventDate | date:'mediumDate' }}</span>
                   @if ((ev.eventType === 'Obituary' || ev.eventType === 'Funeral') && ev.birthDate && ev.deathDate) {
                     <span class="dates">Born: {{ ev.birthDate | date:'mediumDate' }} – Passed: {{ ev.deathDate | date:'mediumDate' }}</span>
@@ -213,9 +216,18 @@ import { EventStatsService } from '../../services/event-stats.service';
     }
     .card-meta {
       display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
+      flex-direction: column;
+      gap: 0.5rem;
       font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .meta-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .time-ago {
+      font-style: italic;
       color: var(--text-muted);
     }
 
@@ -315,6 +327,41 @@ export class FeedComponent implements OnInit {
     if (type === 'Wedding') return 'Anniversary';
     if (type === 'Funeral') return 'Obituary';
     return type;
+  }
+
+  getTimeAgo(createdAt: string | Date): string {
+    if (!createdAt) return '';
+    
+    const now = new Date();
+    const created = new Date(createdAt);
+    const diffInSeconds = Math.floor((now.getTime() - created.getTime()) / 1000);
+    
+    if (diffInSeconds < 60) {
+      return 'just now';
+    }
+    
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    if (diffInMinutes < 60) {
+      return `${diffInMinutes} ${diffInMinutes === 1 ? 'min' : 'mins'} ago`;
+    }
+    
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    if (diffInHours < 24) {
+      return `${diffInHours} ${diffInHours === 1 ? 'hr' : 'hrs'} ago`;
+    }
+    
+    const diffInDays = Math.floor(diffInHours / 24);
+    if (diffInDays < 30) {
+      return `${diffInDays} ${diffInDays === 1 ? 'day' : 'days'} ago`;
+    }
+    
+    const diffInMonths = Math.floor(diffInDays / 30);
+    if (diffInMonths < 12) {
+      return `${diffInMonths} ${diffInMonths === 1 ? 'month' : 'months'} ago`;
+    }
+    
+    const diffInYears = Math.floor(diffInDays / 365);
+    return `${diffInYears} ${diffInYears === 1 ? 'year' : 'years'} ago`;
   }
 
   loadEvents() {
