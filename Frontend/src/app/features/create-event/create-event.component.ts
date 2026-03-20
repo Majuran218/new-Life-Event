@@ -20,7 +20,9 @@ import { AuthService } from '../../services/auth.service';
 
     <div class="container form-container">
       <form (ngSubmit)="submit()" class="create-form">
+
         <div class="form-row">
+        
           <div class="form-group">
             <label>Event Type *</label>
             <select [(ngModel)]="eventType" name="eventType" required (ngModelChange)="onEventTypeChange($event)">
@@ -30,10 +32,27 @@ import { AuthService } from '../../services/auth.service';
               <option value="Obituary">Obituary & Memorial</option>
             </select>
           </div>
-          <div class="form-group">
+
+
+
+
+         <div class="form-group">
             <label>Event Date *</label>
-            <input type="date" [(ngModel)]="eventDate" name="eventDate" required />
-          </div>
+  <input 
+    type="date" 
+    [(ngModel)]="eventDate" 
+    name="eventDate" 
+    required
+    #eventDateInput="ngModel"
+  />
+  @if (eventDateInput.invalid && (eventDateInput.dirty || eventDateInput)) {
+    <div class="validation-error">
+      @if (eventDateInput.errors?.['required']) {
+        <small>Event date is required.</small>
+      }
+    </div>
+  }
+</div>
         </div>
 
         @if (eventType === 'Obituary') {
@@ -55,6 +74,9 @@ import { AuthService } from '../../services/auth.service';
             <input type="date" [(ngModel)]="weddingDate" name="weddingDate" required />
           </div>
         }
+
+
+
 
         <div class="form-group">
           <label>Title *</label>
@@ -82,6 +104,8 @@ import { AuthService } from '../../services/auth.service';
           }
         </div>
 
+
+
         <div class="form-group">
           <label>Description *</label>
           <textarea 
@@ -94,11 +118,13 @@ import { AuthService } from '../../services/auth.service';
             maxlength="2000"
             rows="5"
           ></textarea>
+
           @if (descriptionInput.invalid && (descriptionInput.dirty || descriptionInput.touched)) {
             <div class="validation-error">
               @if (descriptionInput.errors?.['required']) {
                 <small>Description is required.</small>
               }
+
               @if (descriptionInput.errors?.['minlength']) {
                 <small>Description must be at least 10 characters.</small>
               }
@@ -112,15 +138,33 @@ import { AuthService } from '../../services/auth.service';
           </div>
         </div>
 
+
+
+
         <div class="form-group">
-          <label>Location (optional)</label>
+          <label>Location *</label>
           <input 
             [(ngModel)]="location" 
             name="location" 
             placeholder="e.g. Central Park, New York"
             #locationInput="ngModel"
+            required
             maxlength="200"
           />
+
+          @if (locationInput.invalid && (locationInput.dirty || locationInput.touched)) {
+            <div class="validation-error">
+
+              @if (locationInput.errors?.['required']) {
+                <small>Location is required.</small>
+              }
+                
+              @if (locationInput.errors?.['minlength']) {
+                <small>Location must be at least 3 characters.</small>
+              }
+        </div>
+          }
+
           @if (locationInput.invalid && locationInput.errors?.['maxlength']) {
             <div class="validation-error">
               <small>Location cannot exceed 200 characters.</small>
@@ -133,22 +177,34 @@ import { AuthService } from '../../services/auth.service';
           }
         </div>
 
-        <div class="form-group">
-          <label>Country *</label>
-          <select [(ngModel)]="country" name="country" required>
-            <option value="">Select country</option>
-            <option value="USA">USA</option>
-            <option value="UK">UK</option>
-            <option value="Canada">Canada</option>
-            <option value="Australia">Australia</option>
-            <option value="India">India</option>
-            <option value="Germany">Germany</option>
-            <option value="France">France</option>
-            <option value="Japan">Japan</option>
-            <option value="Brazil">Brazil</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
+<div class="form-group">
+  <label>Country *</label>
+  <select [(ngModel)]="country" name="country" required #countryInput="ngModel">
+    <option value="">Select country</option>
+    <option value="USA">USA</option>
+    <option value="UK">UK</option>
+    <option value="Canada">Canada</option>
+    <option value="Australia">Australia</option>
+    <option value="India">India</option>
+    <option value="Germany">Germany</option>
+    <option value="France">France</option>
+    <option value="Japan">Japan</option>
+    <option value="Brazil">Brazil</option>
+    <option value="Other">Other</option>
+  </select>
+
+  @if (countryInput.invalid && (countryInput.dirty || countryInput.touched)) {
+    <div class="validation-error">
+      @if (countryInput.errors?.['required']) {
+        <small>Country is required.</small>
+      }
+    </div>
+  }
+</div>
+
+
+
+
 
         <div class="form-group display-duration-section">
           <div class="duration-header">
@@ -168,15 +224,24 @@ import { AuthService } from '../../services/auth.service';
           </div>
         </div>
 
-        <div class="form-group">
-          <label>Privacy / Visibility</label>
-          <select [(ngModel)]="visibility" name="visibility" (ngModelChange)="onVisibilityChange($event)">
-            <option value="Public">Public — Anyone can view</option>
-            <option value="Private">Private — Only you</option>
-            <option value="InviteOnly">Invite Only — Only you and invited people</option>
-          </select>
-        </div>
+       <div class="form-group">
+  <label>Privacy / Visibility *</label>
+  <select [(ngModel)]="visibility" name="visibility" required #visibilityInput="ngModel"
+    (ngModelChange)="onVisibilityChange($event)">
+    <option value="">Select visibility</option>
+    <option value="Public">Public — Anyone can view</option>
+    <option value="Private">Private — Only you</option>
+    <option value="InviteOnly">Invite Only — Only you and invited people</option>
+  </select>
 
+  @if (visibilityInput.invalid && (visibilityInput.dirty || visibilityInput.touched)) {
+    <div class="validation-error">
+      @if (visibilityInput.errors?.['required']) {
+        <small>Privacy / Visibility is required.</small>
+      }
+    </div>
+  }
+</div>
         @if (visibility === 'InviteOnly') {
           <div class="form-group invite-section">
             <label>Invite people by email *</label>
