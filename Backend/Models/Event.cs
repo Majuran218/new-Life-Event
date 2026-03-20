@@ -31,6 +31,15 @@ public class Event
     [MaxLength(100)]
     public string? Country { get; set; }
 
+
+     [Required]
+        public string CurrencyCode { get; set; } = string.Empty;  // e.g., LKR, GBP
+
+        public decimal AmountGBP { get; set; }       // Always stored in GBP
+        public decimal AmountPaid { get; set; }      // In selected currency
+        public decimal ExchangeRateUsed { get; set; }// Rate at time of payment
+
+
     [MaxLength(500)]
     public string? MainImageUrl { get; set; }
 

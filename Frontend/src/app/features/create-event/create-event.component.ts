@@ -341,7 +341,7 @@ import { AuthService } from '../../services/auth.service';
   }
 </div>
     <div class="form-group">
-  <label>Country Currency *</label>
+  <label>Country Currency(Which Country Currency You need to pay the Money) *</label>
   <div class="currency-select-wrapper">
     <select [(ngModel)]="currencyCode" name="currency" required #currencyInput="ngModel" (ngModelChange)="onCurrencyChange($event)">
       <option value="">Select currency</option>

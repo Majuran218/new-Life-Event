@@ -21,6 +21,15 @@ public class AppDbContext : DbContext
             u.HasIndex(x => x.Email).IsUnique();
         });
 
+         modelBuilder.Entity<Event>(entity =>
+            {
+                entity.Property(e => e.AmountGBP).HasColumnType("decimal(18,4)");
+                entity.Property(e => e.AmountPaid).HasColumnType("decimal(18,4)");
+                entity.Property(e => e.ExchangeRateUsed).HasColumnType("decimal(18,6)");
+                entity.HasIndex(e => e.UserId);
+                
+            });
+
         modelBuilder.Entity<Event>(e =>
         {
             e.HasIndex(x => x.EventType);
